@@ -1,0 +1,50 @@
+﻿@model ProductInventoryFront.Models.ProductIndexViewModel
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h2>Product List</h2>
+
+<form method="post" action="@Url.Action("Index", "Product")">
+    <div class="form-group">
+        <label for="state">Filter by State:</label>
+        <select id="state" name="SelectedState" class="form-control">
+            <option value="">All</option>
+            <option value="0" >Available</option>
+            <option value="1" >Out of Stock</option>
+            <option value="2" >Defective</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply Filter</button>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturing Type</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@Enum.GetName(typeof(ProductInventoryFront.Models.ManufacturingType), product.ManufacturingType)</td>
+                <td>@Enum.GetName(typeof(ProductInventoryFront.Models.ProductState), product.State)</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Product", new { id = product.Id })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", "Product", new { id = product.Id })" class="btn btn-danger">Delete</a>
+                    <form action="@Url.Action("MarkAsDefective", "Product", new { id = product.Id })" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-warning">Mark as Defective</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Product")" class="btn btn-success">Add New Product</a>

@@ -1,0 +1,16 @@
+﻿@model List<ProductModel>
+
+@{
+    ViewData["Title"] = "Carga Masiva de Productos";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="BulkCreate" method="post">
+    <div class="form-group">
+        <label for="products">Ingrese los productos en formato JSON:</label>
+        <textarea id="products" name="products" class="form-control" rows="10" placeholder='[{"Name":"Producto1","ManufacturingType":1,"State":1},{"Name":"Producto2","ManufacturingType":0,"State":0}]'></textarea>
+@*        <span asp-validation-for="products" class="text-danger"></span>
+ *@    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
